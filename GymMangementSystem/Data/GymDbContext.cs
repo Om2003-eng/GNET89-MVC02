@@ -7,7 +7,11 @@ namespace GymMangementSystem.Data
   
       public class GymDbContext : DbContext
         {
-            public GymDbContext(DbContextOptions<GymDbContext> options)
+        public GymDbContext()
+        {
+        }
+
+        public GymDbContext(DbContextOptions<GymDbContext> options)
                 : base(options)
             {
             }
@@ -27,12 +31,12 @@ namespace GymMangementSystem.Data
             {
                 base.OnModelCreating(modelBuilder);
 
-                // Membership Sequence
+               
                 modelBuilder.HasSequence<int>("MembershipSequence", "dbo")
                             .StartsAt(1)
                             .IncrementsBy(1);
 
-                // Entity Configurations
+
                 modelBuilder.ApplyConfiguration(new GymUserConfiguration());
                 modelBuilder.ApplyConfiguration(new MemberConfiguration());
                 modelBuilder.ApplyConfiguration(new TrainerConfiguration());
