@@ -8,7 +8,22 @@ namespace GymMangementSystem.Configurations
     {
         public void Configure(EntityTypeBuilder<Plan> builder)
         {
-            throw new NotImplementedException();
+            builder.Property(m => m.CreatedAt)
+               .HasDefaultValueSql("GETDATE()");
+            builder.ToTable(table =>
+            {
+                table.HasCheckConstraint(
+                    "CK_Plan_DurationDays",
+                    "DurationDays BETWEEN 1 AND 365");
+            });
+
+         
+            builder.HasMany(p => p.Memberships)
+                   .WithOne(m => m.Plan)
+                   .HasForeignKey(m => m.PlanId)
+                   .IsRequired()
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
-}
+    }
+
